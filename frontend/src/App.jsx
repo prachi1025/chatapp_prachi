@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage.jsx"
 import Settings from "./pages/Settings.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx"
 import { useAuthStore } from './store/useAuthStore.js'
+import { Toaster } from "react-hot-toast"
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
@@ -34,6 +35,8 @@ const App = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
       </Routes>
+
+      <Toaster />
     </div>
   )
 }
