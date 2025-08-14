@@ -124,7 +124,7 @@ const LoginPage = () => {
       <div className="hidden lg:flex items-center justify-center bg-base-200 dark:bg-base-100">
         <div className="max-w-sm w-full">
           <AuthImagePattern
-            title={"Welcome back!"}
+            title={"Let’s Pick Up Where You Left Off"}
             subtitle={"Sign in to continue your conversations and catch up with your messages."}
           />
         </div>
