@@ -24,7 +24,7 @@ router.get(
 // Google OAuth callback
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:5173/", session: false }),
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173/login", session: false }),
   async (req, res) => {
     try {
       const profile = req.user;
@@ -63,7 +63,7 @@ router.get(
 
     } catch (error) {
       console.log("Google OAuth callback error:", error);
-      res.redirect("http://localhost:5173/");
+      res.redirect("http://localhost:5173/login");
     }
   }
 );
