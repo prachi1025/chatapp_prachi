@@ -7,6 +7,8 @@ import SignUpPage from "./pages/SignUpPage.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
 import Settings from "./pages/Settings.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx"
+import ForgotPassword from './pages/ForgotPassword.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 import { useAuthStore } from './store/useAuthStore.js'
 import { Toaster } from "react-hot-toast"
 
@@ -34,6 +36,8 @@ const App = () => {
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
+        <Route path="/forgotpassword" element={!authUser ? <ForgotPassword /> : <Navigate to="/" />} />
+        <Route path="/resetpassword/:token" element={<ResetPassword />} />
       </Routes>
 
       <Toaster />

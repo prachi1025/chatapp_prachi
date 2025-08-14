@@ -25,6 +25,8 @@ const userSchema = new mongoose.Schema(
             unique: true,
             sparse: true, // allows multiple nulls
         },
+        resetPasswordToken: String,
+        resetPasswordExpires: Date,
     },
     { timestamps: true }
 )

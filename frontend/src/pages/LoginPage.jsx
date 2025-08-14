@@ -96,8 +96,16 @@ const LoginPage = () => {
                 "Sign in"
               )}
             </button>
-          </form>
 
+            {/* Forgot Password Link */}
+            <div className="text-right mt-0 mb-0">
+              <Link to="/forgotpassword" className="text-sm text-blue-500 hover:underline">
+                Forgot Password?
+              </Link>
+            </div>
+
+          </form>
+          
           <div className="divider">OR</div>
           <GoogleLoginButton />
 
