@@ -52,7 +52,7 @@ const SignUpPage = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div className="form-control">
               <label className="label">
                 <span className="label-text font-medium">Full Name</span>
@@ -145,11 +145,14 @@ const SignUpPage = () => {
       </div>
 
       {/* right side */}
-
-      <AuthImagePattern
-        title="Join our community"
-        subtitle="Weaving your chats into the perfect matrix"
-      />
+      <div className="hidden lg:flex items-center justify-center bg-base-200 dark:bg-base-100">
+        <div className="max-w-sm w-full"> 
+          <AuthImagePattern
+            title={"Join our community!"}
+            subtitle={"Weaving your chats into the perfect matrix"}
+          />
+        </div>
+      </div>
       
     </div>
   );

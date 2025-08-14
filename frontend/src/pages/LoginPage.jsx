@@ -19,7 +19,7 @@ const LoginPage = () => {
       login(formData);
     };
   return (
-    <div className="h-screen grid lg:grid-cols-2 pt-10">
+    <div className="min-h-screen grid lg:grid-cols-2 pt-10">
       {/* Left Side - Form */}
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
@@ -38,7 +38,7 @@ const LoginPage = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div className="form-control">
               <label className="label">
                 <span className="label-text font-medium">Email</span>
@@ -121,10 +121,15 @@ const LoginPage = () => {
       </div>
 
       {/* Right Side - Image/Pattern */}
-      <AuthImagePattern
-        title={"Welcome back!"}
-        subtitle={"Sign in to continue your conversations and catch up with your messages."}
-      />
+      <div className="hidden lg:flex items-center justify-center bg-base-200 dark:bg-base-100">
+        <div className="max-w-sm w-full">
+          <AuthImagePattern
+            title={"Welcome back!"}
+            subtitle={"Sign in to continue your conversations and catch up with your messages."}
+          />
+        </div>
+      </div>
+      
     </div>
   )
 }
