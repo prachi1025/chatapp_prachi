@@ -1,18 +1,71 @@
-import express from "express"
-import { protectRoute } from "../middleware/auth.middleware.js"
+import express from "express";
+import { protectRoute } from "../middleware/auth.middleware.js";
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
+import passport from "passport";
 
-import { signup, login, logout, updateProfile, checkAuth } from "../controller/auth.controller.js"
+import { signup, login, logout, updateProfile, checkAuth } from "../controller/auth.controller.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/signup", signup )
+// Regular auth routes
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
+router.put("/update-profile", protectRoute, updateProfile);
+router.get("/check", protectRoute, checkAuth);
 
-router.post("/login", login )
+// Google OAuth start
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-router.post("/logout", logout)
+// Google OAuth callback
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173/", session: false }),
+  async (req, res) => {
+    try {
+      const profile = req.user;
 
-router.put("/update-profile", protectRoute, updateProfile)
+      // Check if user already exists
+      let user = await User.findOne({ googleId: profile.id });
 
-router.get("/check", protectRoute, checkAuth)
+      if (!user) {
+        // Create new user with random password to satisfy schema
+        user = await User.create({
+          googleId: profile.id,
+          email: profile.emails[0].value,
+          fullName: profile.displayName,
+          profilePic: profile.photos[0]?.value || "",
+          password: Math.random().toString(36).slice(-8), // random 8-char password
+        });
+      }
 
-export default router
+      // Generate JWT
+      const token = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+      );
+
+      // Set cookie
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      });
+
+      // Redirect to frontend
+      res.redirect("http://localhost:5173/");
+
+    } catch (error) {
+      console.log("Google OAuth callback error:", error);
+      res.redirect("http://localhost:5173/");
+    }
+  }
+);
+
+export default router;

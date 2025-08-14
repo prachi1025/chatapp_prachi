@@ -3,6 +3,7 @@ import { useState } from "react";
 import AuthImagePattern from "../components/AuthImagePattern.jsx";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
+import GoogleLoginButton from "../components/GoogleLogginButton.jsx";
 
 
 const LoginPage = () => {
@@ -18,7 +19,7 @@ const LoginPage = () => {
       login(formData);
     };
   return (
-    <div className="h-screen grid lg:grid-cols-2">
+    <div className="h-screen grid lg:grid-cols-2 pt-10">
       {/* Left Side - Form */}
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
@@ -96,6 +97,9 @@ const LoginPage = () => {
               )}
             </button>
           </form>
+
+          <div className="divider">OR</div>
+          <GoogleLoginButton />
 
           <div className="text-center">
             <p className="text-base-content/60">

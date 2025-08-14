@@ -1,28 +1,104 @@
-import express from "express"
-import dotenv from "dotenv"
-import cookieParser from "cookie-parser"
-import cors from "cors"
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import passport from "passport";
+import jwt from "jsonwebtoken";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
-import authRoutes from "./routes/auth.route.js"
-import messageRoutes from "./routes/message.route.js"
-import { connectDB } from "./lib/db.js"
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
+import { connectDB } from "./lib/db.js";
+import User from "./models/user.model.js"; // <-- user model import
 
-dotenv.config()
-const app = express()
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-const PORT = process.env.PORT
+// ========== PASSPORT GOOGLE STRATEGY ==========
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK_URL, // 
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const email = profile.emails[0].value;
+        const googleId = profile.id;
+        const fullName = profile.displayName;
+        const profilePic = profile.photos[0].value;
 
-app.use(express.json({ limit: "10mb"}))
-app.use(cookieParser())
-app.use(cors({
+        // Check if user exists
+        let user = await User.findOne({ email });
+
+        if (!user) {
+          // Create new user
+          user = await User.create({
+            fullName,
+            email,
+            profilePic,
+            googleId,
+          });
+        }
+
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
+    }
+  )
+);
+
+// ========== MIDDLEWARE ==========
+app.use(express.json({ limit: "10mb" }));
+app.use(cookieParser());
+app.use(
+  cors({
     origin: "http://localhost:5173",
     credentials: true,
-}))
+  })
+);
+app.use(passport.initialize());
 
-app.use("/api/auth", authRoutes)
-app.use("/api/message", messageRoutes)
+// ========== GOOGLE AUTH ROUTES ==========
 
+// Step 1: Start Google login
+app.get(
+  "/api/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// Step 2: Google callback
+app.get(
+  "/api/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "http://localhost:5173/", session: false }),
+  (req, res) => {
+    // Generate JWT token
+    const token = jwt.sign({ userId: req.user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    // Store JWT in cookie
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    // Redirect to dashboard
+    res.redirect("http://localhost:5173/");
+  }
+);
+
+// ========== OTHER ROUTES ==========
+app.use("/api/auth", authRoutes);
+app.use("/api/message", messageRoutes);
+
+// ========== START SERVER ==========
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`)
-    connectDB()
-})
+  console.log(`✅ Server running on port ${PORT}`);
+  connectDB();
+});
