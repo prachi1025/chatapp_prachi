@@ -7,7 +7,7 @@ A **real-time chat application** built with **React, Node.js, Express, MongoDB, 
 ## 🌟 Features
 
 - **User Authentication**
-  - Sign up / log in with **Google OAuth 2.0**.
+  - Sign up / log in with **Google OAuth 2.0** (only for test users).
   - JWT-based authentication with cookies.
   - Profile management (update profile, change password).
   
@@ -49,4 +49,23 @@ A **real-time chat application** built with **React, Node.js, Express, MongoDB, 
 
 ---
 
+## 🖼️ Screenshots
 
+- **Sign Up Page**
+  ![Sign Up Page](./screenshots/sign%20up.png)
+
+- **Log In Page**
+  ![Log In Page](./screenshots/login.png)
+
+- **Home Page**
+  ![Home Page](./screenshots/Profile.png)
+
+- **Profile Page**
+  ![Profile page](./screenshots/profilep.png)
+  ![Profile page after scrolling](./screenshots/profilep2.png)
+
+- **Settings**
+  ![Settings Page](./screenshots/settings.png)
+
+- **Chat Preview**
+  ![Chat Preview](./screenshots/chat.png)
