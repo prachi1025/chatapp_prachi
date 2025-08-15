@@ -10,10 +10,12 @@ import ProfilePage from "./pages/ProfilePage.jsx"
 import ForgotPassword from './pages/ForgotPassword.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
 import { useAuthStore } from './store/useAuthStore.js'
+import { useThemeStore } from './store/useThemeStore.js'
 import { Toaster } from "react-hot-toast"
 
 const App = () => {
   const {authUser, checkAuth, isCheckingAuth} = useAuthStore();
+  const { theme } = useThemeStore()
 
   useEffect(() => {
     checkAuth();
@@ -27,7 +29,7 @@ const App = () => {
     </div>
   )
   return (
-    <div>
+    <div data-theme={ theme }>
       <Navbar />
 
       <Routes>
