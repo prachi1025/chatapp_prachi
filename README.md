@@ -1,4 +1,4 @@
-# ChatApp 🚀
+# 💬 Chattrix - Weaving your chats into the perfect matrix
 
 A **real-time chat application** built with **React, Node.js, Express, MongoDB, and Socket.IO**. Users can sign in using **Google OAuth**, send messages in real-time, and view online users. Styled for a modern, responsive interface.
 
@@ -52,20 +52,33 @@ A **real-time chat application** built with **React, Node.js, Express, MongoDB, 
 ## 🖼️ Screenshots
 
 - **Sign Up Page**
+  
   ![Sign Up Page](./screenshots/sign%20up.png)
 
 - **Log In Page**
+  
   ![Log In Page](./screenshots/login.png)
 
 - **Home Page**
+  
   ![Home Page](./screenshots/Profile.png)
 
 - **Profile Page**
+  
   ![Profile page](./screenshots/profilep.png)
   ![Profile page after scrolling](./screenshots/profilep2.png)
 
 - **Settings**
+  
   ![Settings Page](./screenshots/settings.png)
 
 - **Chat Preview**
+  
   ![Chat Preview](./screenshots/chat.png)
+
+---
+
+## 🚀 Deployment
+
+This project is currently under development and is **not yet deployed**.  
+I am actively working on deploying it, and once it's live, the deployment link will be added here. Stay tuned! 🚀
